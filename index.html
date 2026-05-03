@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terpel - Línea del Tiempo Interactiva</title>
-    <!-- Herramientas (No tocar) -->
+    <title>Terpel - Evolución Estratégica Regional</title>
+    <!-- Cargador de estilos y herramientas (No eliminar) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -13,9 +13,12 @@
     <style>
         @keyframes pulse-glow {
             0%, 100% { opacity: 0.15; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.1); }
+            50% { opacity: 0.35; transform: scale(1.15); }
         }
-        .bg-glow { animation: pulse-glow 4s infinite; }
+        .animate-glow { animation: pulse-glow 5s infinite ease-in-out; }
+        body { background-color: #05070a; margin: 0; overflow: hidden; color: white; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        * { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body>
@@ -25,17 +28,13 @@
         const { useState, useEffect } = React;
 
         /* =========================================================
-           ZONA DE EDICIÓN PARA EL LOGO (BUSCA AQUÍ ABAJO)
+           CONFIGURACIÓN DEL LOGO (EDITA AQUÍ)
            =========================================================
+           Si subiste tu logo a GitHub, cambia null por "./nombre-archivo.png"
+           Ejemplo: const URL_LOGO = "./mi-logo-terpel.png";
         */
-
-        // 1. Si subiste tu logo a GitHub con el nombre "logo.png", 
-        // cambia el null por "./logo.png" (mantén las comillas)
         const URL_LOGO = null; 
-
         /* =========================================================
-           FIN DE LA ZONA DE EDICIÓN
-           =========================================================
         */
 
         const Icon = ({ name, className }) => {
@@ -43,10 +42,11 @@
             return <i data-lucide={name} className={className}></i>;
         };
 
-        const TerpelLogo = () => {
-            if (URL_LOGO) return <img src={URL_LOGO} className="w-12 h-12 object-contain" alt="Logo" />;
+        const BrandLogo = () => {
+            if (URL_LOGO) return <img src={URL_LOGO} className="h-12 w-auto object-contain" alt="Terpel Logo" />;
+            // Logo de respaldo diseñado con código (SVG)
             return (
-                <svg viewBox="0 0 100 100" className="w-12 h-12">
+                <svg viewBox="0 0 100 100" className="w-12 h-12 drop-shadow-[0_0_15px_rgba(227,6,19,0.6)]">
                     <circle cx="50" cy="50" r="45" fill="#E30613" />
                     <path d="M70 30 C78 38 80 50 78 60 C75 75 60 85 45 82 C30 79 20 65 23 50 C26 35 40 25 55 28 C62 29 67 33 70 38" fill="#FFD100" />
                 </svg>
@@ -54,7 +54,7 @@
         };
 
         const App = () => {
-            const [hoveredIndex, setHoveredIndex] = useState(null);
+            const [active, setActive] = useState(null);
 
             const milestones = [
                 { year: "1968", title: "Origen", desc: "Nace Terpel en Bucaramanga", icon: "building-2", color: "bg-red-600", x: "5%", y: "55%" },
@@ -62,62 +62,81 @@
                 { year: "2001", title: "Estructura", desc: "Constitución Organización Terpel S.A.", icon: "award", color: "bg-red-700", x: "21%", y: "58%" },
                 { year: "2006", title: "Ecuador", desc: "Inicio operaciones internacionales", icon: "globe", color: "bg-orange-500", x: "29%", y: "38%" },
                 { year: "2007", title: "Panamá", desc: "Llegada al mercado panameño", icon: "globe", color: "bg-orange-600", x: "37%", y: "62%" },
-                { year: "2010", title: "Inversión", desc: "Copec: Inversionista mayoritario", icon: "trending-up", color: "bg-slate-700", x: "45%", y: "45%" },
+                { year: "2010", title: "Inversión", desc: "Copec se constituye en inversionista mayoritario", icon: "trending-up", color: "bg-slate-700", x: "45%", y: "45%" },
                 { year: "2011", title: "R. Dom", desc: "Aviación en Rep. Dominicana", icon: "plane", color: "bg-blue-600", x: "53%", y: "65%" },
-                { year: "2015", title: "Perú", desc: "Fortalecimiento región andina", icon: "map-pin", color: "bg-red-600", x: "61%", y: "35%" },
-                { year: "2019", title: "Cielos", desc: "Aviación llega a Panamá", icon: "plane", color: "bg-blue-500", x: "69%", y: "62%" },
-                { year: "2021", title: "Voltex", desc: "Nueva movilidad en Panamá", icon: "zap", color: "bg-yellow-500", x: "77%", y: "42%" },
-                { year: "2024", title: "Sbarro", desc: "Alianza retail en Panamá", icon: "target", color: "bg-red-500", x: "85%", y: "68%" },
-                { year: "2025", title: "Total", desc: "Lubricantes TotalEnergies", icon: "droplet", color: "bg-slate-800", x: "93%", y: "48%" }
+                { year: "2015", title: "Perú", desc: "Fortalecimiento presencia región andina", icon: "map-pin", color: "bg-red-600", x: "61%", y: "35%" },
+                { year: "2019", title: "Aviación", desc: "Llega la industria de aviación a Panamá", icon: "plane", color: "bg-blue-500", x: "69%", y: "62%" },
+                { year: "2021", title: "Voltex", desc: "Llega Terpel Voltex a Panamá", icon: "zap", color: "bg-yellow-500", x: "77%", y: "42%" },
+                { year: "2024", title: "Retail", desc: "Llega Sbarro a Panamá", icon: "target", color: "bg-red-500", x: "85%", y: "68%" },
+                { year: "2025", title: "Alianzas", desc: "Distribuidores Lubricantes TotalEnergies", icon: "droplet", color: "bg-slate-800", x: "93%", y: "48%" }
             ];
 
             return (
-                <div className="w-full h-screen bg-[#05070a] text-white font-sans overflow-hidden relative flex flex-col p-6 md:p-10">
-                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-red-600/10 rounded-full blur-[100px] bg-glow" />
+                <div className="w-full h-screen flex flex-col p-8 md:p-14 relative select-none overflow-hidden">
+                    {/* Elementos Visuales de Fondo */}
+                    <div className="absolute inset-0 pointer-events-none">
+                        <div className="absolute top-[-15%] left-[-10%] w-1/2 h-1/2 bg-red-600/10 rounded-full blur-[120px] animate-glow" />
+                        <div className="absolute bottom-[-10%] right-[-5%] w-1/3 h-1/3 bg-blue-600/5 rounded-full blur-[100px]" />
+                        <div className="absolute inset-0 bg-[radial-gradient(#ffffff03_1px,transparent_1px)] [background-size:32px_32px]" />
                     </div>
 
-                    <header className="relative z-20 flex justify-between items-start">
-                        <div className="space-y-1">
-                            <div className="flex items-center gap-4">
-                                <TerpelLogo />
-                                <h2 className="text-3xl font-black italic tracking-tighter uppercase text-red-600">Terpel</h2>
+                    {/* Cabecera Principal */}
+                    <header className="relative z-20 flex justify-between items-start mb-8">
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-5">
+                                <BrandLogo />
+                                <span className="text-4xl font-black italic tracking-tighter uppercase text-red-600">Terpel</span>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-none pt-4">
-                                MAPPING <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-yellow-500 italic">EVOLUTION.</span>
+                            <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mt-2">
+                                EVOLUCIÓN <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-orange-500 to-yellow-400 italic uppercase">Estratégica</span>
                             </h1>
+                        </div>
+                        <div className="hidden lg:block text-right border-l border-white/10 pl-8 pt-2">
+                            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-500 mb-2">History & Growth Mapping</p>
+                            <p className="text-3xl font-black font-mono tracking-tighter">1968 — 2025</p>
                         </div>
                     </header>
 
-                    <div className="flex-grow relative mt-4">
-                        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30" viewBox="0 0 1000 400" preserveAspectRatio="none">
-                            <path d="M 0 220 Q 150 100 300 200 T 600 180 T 1000 160" fill="none" stroke="url(#canvaGrad)" strokeWidth="2" strokeDasharray="10 5" />
-                            <defs>
-                                <linearGradient id="canvaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stopColor="#ef4444" />
-                                    <stop offset="100%" stopColor="#eab308" />
-                                </linearGradient>
-                            </defs>
+                    {/* Contenedor de la Línea Maestra */}
+                    <div className="flex-grow relative mt-10">
+                        {/* Línea de guía visual */}
+                        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 1000 400" preserveAspectRatio="none">
+                            <path d="M 0 220 Q 150 100 300 200 T 600 180 T 1000 160" fill="none" stroke="white" strokeWidth="1" strokeDasharray="8 4" />
                         </svg>
 
                         {milestones.map((item, idx) => (
-                            <div key={idx} className="absolute transition-all duration-500 z-10" style={{ left: item.x, top: item.y, transform: 'translate(-50%, -50%)' }}
-                                 onMouseEnter={() => setHoveredIndex(idx)} onMouseLeave={() => setHoveredIndex(null)}>
-                                <div className="relative group cursor-pointer">
-                                    <div className={`absolute inset-0 rounded-full blur-2xl transition-all duration-700 ${hoveredIndex === idx ? item.color + ' opacity-80 scale-[2.5]' : 'opacity-0'}`} />
-                                    <div className={`w-10 h-10 md:w-14 md:h-14 rounded-2xl border-2 transition-all duration-500 bg-slate-900 flex items-center justify-center ${hoveredIndex === idx ? 'border-white rotate-12 scale-110' : 'border-white/10'}`}>
-                                        <Icon name={item.icon} className={`w-5 h-5 md:w-6 md:h-6 ${hoveredIndex === idx ? 'text-white' : 'text-slate-500'}`} />
+                            <div 
+                                key={idx}
+                                className="absolute transition-all duration-500 z-10"
+                                style={{ left: item.x, top: item.y, transform: 'translate(-50%, -50%)' }}
+                                onMouseEnter={() => setActive(idx)}
+                                onMouseLeave={() => setActive(null)}
+                                onClick={() => setActive(active === idx ? null : idx)}
+                            >
+                                <div className="relative flex flex-col items-center">
+                                    {/* EFECTO NEÓN DE ALTO IMPACTO */}
+                                    <div className={`absolute inset-0 rounded-full blur-3xl transition-all duration-700 ${active === idx ? item.color + ' opacity-80 scale-[2.8]' : 'opacity-0'}`} />
+                                    
+                                    {/* Nodo del hito */}
+                                    <div className={`w-12 h-12 md:w-16 md:h-16 rounded-[1.5rem] border-2 flex items-center justify-center transition-all duration-500 bg-slate-900/80 backdrop-blur-sm ${active === idx ? 'border-white rotate-12 scale-125 shadow-[0_0_50px_rgba(255,255,255,0.2)]' : 'border-white/10'}`}>
+                                        <Icon name={item.icon} className={`w-6 h-6 md:w-8 md:h-8 ${active === idx ? 'text-white' : 'text-slate-600'}`} />
                                     </div>
-                                    <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-3 text-center transition-all duration-300 ${hoveredIndex === idx ? 'opacity-100' : 'opacity-40'}`}>
-                                        <span className="text-[10px] font-black tracking-tighter text-white block">{item.year}</span>
+
+                                    {/* Etiqueta de Año */}
+                                    <div className={`mt-4 text-center transition-all duration-300 ${active === idx ? 'scale-110' : 'opacity-40 grayscale'}`}>
+                                        <span className="text-[11px] font-black font-mono tracking-widest text-white">{item.year}</span>
+                                        <div className="text-[9px] font-bold uppercase text-slate-500 mt-1">{item.title}</div>
                                     </div>
-                                    {hoveredIndex === idx && (
-                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 w-48 md:w-60 p-5 bg-white rounded-3xl shadow-2xl z-50">
-                                            <div className="absolute bottom-[-8px] left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45" />
-                                            <div className="relative space-y-2 text-slate-900">
-                                                <span className={`text-[9px] font-black px-2 py-0.5 rounded-full text-white uppercase tracking-widest ${item.color}`}>Hito {idx + 1}</span>
-                                                <h3 className="text-sm md:text-base font-black leading-tight">{item.title}</h3>
-                                                <p className="text-[11px] font-bold text-slate-500 italic">{item.desc}</p>
+
+                                    {/* Ventana de información Agency-Style */}
+                                    {active === idx && (
+                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-10 w-56 md:w-64 p-6 bg-white rounded-[2rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] animate-in zoom-in slide-in-from-bottom-4 duration-300 z-50 text-slate-900">
+                                            <div className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-5 h-5 bg-white rotate-45" />
+                                            <div className="relative space-y-3">
+                                                <span className={`text-[9px] font-black px-3 py-1 rounded-full text-white uppercase tracking-widest ${item.color}`}>Hito Estratégico</span>
+                                                <h3 className="text-lg font-black leading-none tracking-tight">{item.title}</h3>
+                                                <p className="text-[11px] font-bold text-slate-500 leading-snug italic">{item.desc}</p>
                                             </div>
                                         </div>
                                     )}
@@ -126,17 +145,30 @@
                         ))}
                     </div>
 
-                    <footer className="relative z-20 flex justify-between items-center border-t border-white/5 pt-6 text-slate-500">
-                        <div className="flex gap-10">
-                            <div className="flex flex-col"><span className="text-2xl font-black text-white">57+</span><span className="text-[8px] uppercase font-bold">Años</span></div>
-                            <div className="flex flex-col"><span className="text-2xl font-black text-white">05</span><span className="text-[8px] uppercase font-bold">Países</span></div>
+                    {/* Pie de Página con métricas */}
+                    <footer className="relative z-20 flex justify-between items-end border-t border-white/5 pt-8">
+                        <div className="flex gap-16">
+                            <div className="flex flex-col">
+                                <span className="text-4xl font-black italic leading-none">57+</span>
+                                <span className="text-[9px] font-bold text-slate-600 uppercase tracking-[0.3em] mt-2">Años de Energía</span>
+                            </div>
+                            <div className="flex flex-col border-l border-white/10 pl-16">
+                                <span className="text-4xl font-black italic leading-none">05</span>
+                                <span className="text-[9px] font-bold text-slate-600 uppercase tracking-[0.3em] mt-2">Naciones Regionales</span>
+                            </div>
                         </div>
-                        <span className="text-[8px] font-mono tracking-widest uppercase">Live_Interactive_V7</span>
+                        <div className="flex flex-col items-end gap-1">
+                            <span className="px-4 py-1 rounded-full bg-red-600/10 border border-red-600/20 text-[9px] font-black text-red-500 uppercase tracking-widest">
+                                Innovación Continua
+                            </span>
+                            <span className="text-[8px] font-mono text-slate-700 mt-2">LIVE_INTERACTIVE_MAPPING_MASTER_V9</span>
+                        </div>
                     </footer>
                 </div>
             );
         };
 
+        // Renderizado Final
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
