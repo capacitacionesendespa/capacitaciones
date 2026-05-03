@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terpel - Línea del Tiempo Interactiva</title>
-    <!-- Cargamos Tailwind CSS y React desde CDN para que funcione sin instalar nada -->
+    <!-- Herramientas (No tocar) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Iconos Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @keyframes pulse-glow {
-            0%, 100% { opacity: 0.1; transform: scale(1); }
-            50% { opacity: 0.2; transform: scale(1.1); }
+            0%, 100% { opacity: 0.15; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.1); }
         }
         .bg-glow { animation: pulse-glow 4s infinite; }
-        /* Ocultar barra de scroll */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body>
@@ -27,11 +23,34 @@
 
     <script type="text/babel">
         const { useState, useEffect } = React;
-        
-        // Simulación de iconos ya que Lucide en CDN funciona distinto
+
+        /* =========================================================
+           ZONA DE EDICIÓN PARA EL LOGO (BUSCA AQUÍ ABAJO)
+           =========================================================
+        */
+
+        // 1. Si subiste tu logo a GitHub con el nombre "logo.png", 
+        // cambia el null por "./logo.png" (mantén las comillas)
+        const URL_LOGO = null; 
+
+        /* =========================================================
+           FIN DE LA ZONA DE EDICIÓN
+           =========================================================
+        */
+
         const Icon = ({ name, className }) => {
             useEffect(() => { lucide.createIcons(); }, []);
             return <i data-lucide={name} className={className}></i>;
+        };
+
+        const TerpelLogo = () => {
+            if (URL_LOGO) return <img src={URL_LOGO} className="w-12 h-12 object-contain" alt="Logo" />;
+            return (
+                <svg viewBox="0 0 100 100" className="w-12 h-12">
+                    <circle cx="50" cy="50" r="45" fill="#E30613" />
+                    <path d="M70 30 C78 38 80 50 78 60 C75 75 60 85 45 82 C30 79 20 65 23 50 C26 35 40 25 55 28 C62 29 67 33 70 38" fill="#FFD100" />
+                </svg>
+            );
         };
 
         const App = () => {
@@ -56,18 +75,15 @@
                 <div className="w-full h-screen bg-[#05070a] text-white font-sans overflow-hidden relative flex flex-col p-6 md:p-10">
                     <div className="absolute inset-0 overflow-hidden pointer-events-none">
                         <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-red-600/10 rounded-full blur-[100px] bg-glow" />
-                        <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-blue-600/10 rounded-full blur-[100px]" />
                     </div>
 
                     <header className="relative z-20 flex justify-between items-start">
                         <div className="space-y-1">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-[0_0_25px_rgba(220,38,38,0.5)]">
-                                    <div className="w-5 h-5 bg-yellow-400 rounded-full border-2 border-white" />
-                                </div>
-                                <h2 className="text-2xl font-black italic tracking-tighter uppercase text-red-600">Terpel</h2>
+                            <div className="flex items-center gap-4">
+                                <TerpelLogo />
+                                <h2 className="text-3xl font-black italic tracking-tighter uppercase text-red-600">Terpel</h2>
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-none pt-2">
+                            <h1 className="text-4xl md:text-5xl font-black tracking-tighter leading-none pt-4">
                                 MAPPING <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-yellow-500 italic">EVOLUTION.</span>
                             </h1>
                         </div>
@@ -98,9 +114,9 @@
                                     {hoveredIndex === idx && (
                                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-6 w-48 md:w-60 p-5 bg-white rounded-3xl shadow-2xl z-50">
                                             <div className="absolute bottom-[-8px] left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45" />
-                                            <div className="relative space-y-2">
+                                            <div className="relative space-y-2 text-slate-900">
                                                 <span className={`text-[9px] font-black px-2 py-0.5 rounded-full text-white uppercase tracking-widest ${item.color}`}>Hito {idx + 1}</span>
-                                                <h3 className="text-sm md:text-base font-black text-slate-900 leading-tight">{item.title}</h3>
+                                                <h3 className="text-sm md:text-base font-black leading-tight">{item.title}</h3>
                                                 <p className="text-[11px] font-bold text-slate-500 italic">{item.desc}</p>
                                             </div>
                                         </div>
@@ -112,10 +128,10 @@
 
                     <footer className="relative z-20 flex justify-between items-center border-t border-white/5 pt-6 text-slate-500">
                         <div className="flex gap-10">
-                            <div className="flex flex-col"><span className="text-2xl font-black text-white">57+</span><span className="text-[8px] uppercase font-bold">Years</span></div>
-                            <div className="flex flex-col"><span className="text-2xl font-black text-white">05</span><span className="text-[8px] uppercase font-bold">Nations</span></div>
+                            <div className="flex flex-col"><span className="text-2xl font-black text-white">57+</span><span className="text-[8px] uppercase font-bold">Años</span></div>
+                            <div className="flex flex-col"><span className="text-2xl font-black text-white">05</span><span className="text-[8px] uppercase font-bold">Países</span></div>
                         </div>
-                        <span className="text-[8px] font-mono">LIVE_INTERACTIVE_CANVA_V4</span>
+                        <span className="text-[8px] font-mono tracking-widest uppercase">Live_Interactive_V7</span>
                     </footer>
                 </div>
             );
