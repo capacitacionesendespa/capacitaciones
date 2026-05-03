@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terpel - Evolución Estratégica Regional</title>
-    <!-- Cargador de estilos y herramientas (No eliminar) -->
+    <!-- Cargador de herramientas (No eliminar) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -18,7 +18,6 @@
         .animate-glow { animation: pulse-glow 5s infinite ease-in-out; }
         body { background-color: #05070a; margin: 0; overflow: hidden; color: white; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        * { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body>
@@ -28,15 +27,21 @@
         const { useState, useEffect } = React;
 
         /* =========================================================
-           CONFIGURACIÓN DEL LOGO (EDITA AQUÍ)
-           const URL_LOGO = "Logo Terpel.png";
+           1. CONFIGURACIÓN DEL LOGO (EL PUNTO CRÍTICO)
            =========================================================
-           Si subiste tu logo a GitHub, cambia null por "./nombre-archivo.png"
-           Ejemplo: const URL_LOGO = "./mi-logo-terpel.png";
+           Asegúrate de que el nombre aquí sea IDÉNTICO al de tu archivo en GitHub.
+           Si tu archivo se llama "Logo-Terpel.PNG", escribe exactamente eso.
         */
-        const URL_LOGO = null; 
+        
+        const NOMBRE_ARCHIVO_LOGO = "logo.png"; 
+        
         /* =========================================================
+           No edites nada debajo de esta línea a menos que quieras
+           cambiar los textos de la línea del tiempo.
+           =========================================================
         */
+
+        const URL_LOGO = `./${NOMBRE_ARCHIVO_LOGO}`;
 
         const Icon = ({ name, className }) => {
             useEffect(() => { lucide.createIcons(); }, []);
@@ -44,8 +49,23 @@
         };
 
         const BrandLogo = () => {
-            if (URL_LOGO) return <img src={URL_LOGO} className="h-12 w-auto object-contain" alt="Terpel Logo" />;
-            // Logo de respaldo diseñado con código (SVG)
+            const [error, setError] = useState(false);
+
+            if (!error && NOMBRE_ARCHIVO_LOGO) {
+                return (
+                    <img 
+                        src={URL_LOGO} 
+                        className="h-12 w-auto object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]" 
+                        alt="Logo" 
+                        onError={() => {
+                            console.error(`Error: No se pudo cargar el archivo "${NOMBRE_ARCHIVO_LOGO}". Revisa que el nombre sea exacto en GitHub.`);
+                            setError(true);
+                        }}
+                    />
+                );
+            }
+
+            // Logo de respaldo (SVG Premium) - Se muestra si el archivo falla
             return (
                 <svg viewBox="0 0 100 100" className="w-12 h-12 drop-shadow-[0_0_15px_rgba(227,6,19,0.6)]">
                     <circle cx="50" cy="50" r="45" fill="#E30613" />
@@ -74,14 +94,13 @@
 
             return (
                 <div className="w-full h-screen flex flex-col p-8 md:p-14 relative select-none overflow-hidden">
-                    {/* Elementos Visuales de Fondo */}
+                    {/* Fondo Estilo Agencia */}
                     <div className="absolute inset-0 pointer-events-none">
                         <div className="absolute top-[-15%] left-[-10%] w-1/2 h-1/2 bg-red-600/10 rounded-full blur-[120px] animate-glow" />
                         <div className="absolute bottom-[-10%] right-[-5%] w-1/3 h-1/3 bg-blue-600/5 rounded-full blur-[100px]" />
                         <div className="absolute inset-0 bg-[radial-gradient(#ffffff03_1px,transparent_1px)] [background-size:32px_32px]" />
                     </div>
 
-                    {/* Cabecera Principal */}
                     <header className="relative z-20 flex justify-between items-start mb-8">
                         <div className="flex flex-col gap-4">
                             <div className="flex items-center gap-5">
@@ -99,9 +118,7 @@
                         </div>
                     </header>
 
-                    {/* Contenedor de la Línea Maestra */}
                     <div className="flex-grow relative mt-10">
-                        {/* Línea de guía visual */}
                         <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 1000 400" preserveAspectRatio="none">
                             <path d="M 0 220 Q 150 100 300 200 T 600 180 T 1000 160" fill="none" stroke="white" strokeWidth="1" strokeDasharray="8 4" />
                         </svg>
@@ -116,21 +133,18 @@
                                 onClick={() => setActive(active === idx ? null : idx)}
                             >
                                 <div className="relative flex flex-col items-center">
-                                    {/* EFECTO NEÓN DE ALTO IMPACTO */}
+                                    {/* Efecto de Iluminación Neón */}
                                     <div className={`absolute inset-0 rounded-full blur-3xl transition-all duration-700 ${active === idx ? item.color + ' opacity-80 scale-[2.8]' : 'opacity-0'}`} />
                                     
-                                    {/* Nodo del hito */}
                                     <div className={`w-12 h-12 md:w-16 md:h-16 rounded-[1.5rem] border-2 flex items-center justify-center transition-all duration-500 bg-slate-900/80 backdrop-blur-sm ${active === idx ? 'border-white rotate-12 scale-125 shadow-[0_0_50px_rgba(255,255,255,0.2)]' : 'border-white/10'}`}>
                                         <Icon name={item.icon} className={`w-6 h-6 md:w-8 md:h-8 ${active === idx ? 'text-white' : 'text-slate-600'}`} />
                                     </div>
 
-                                    {/* Etiqueta de Año */}
                                     <div className={`mt-4 text-center transition-all duration-300 ${active === idx ? 'scale-110' : 'opacity-40 grayscale'}`}>
                                         <span className="text-[11px] font-black font-mono tracking-widest text-white">{item.year}</span>
                                         <div className="text-[9px] font-bold uppercase text-slate-500 mt-1">{item.title}</div>
                                     </div>
 
-                                    {/* Ventana de información Agency-Style */}
                                     {active === idx && (
                                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-10 w-56 md:w-64 p-6 bg-white rounded-[2rem] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.8)] animate-in zoom-in slide-in-from-bottom-4 duration-300 z-50 text-slate-900">
                                             <div className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-5 h-5 bg-white rotate-45" />
@@ -146,7 +160,6 @@
                         ))}
                     </div>
 
-                    {/* Pie de Página con métricas */}
                     <footer className="relative z-20 flex justify-between items-end border-t border-white/5 pt-8">
                         <div className="flex gap-16">
                             <div className="flex flex-col">
@@ -162,14 +175,13 @@
                             <span className="px-4 py-1 rounded-full bg-red-600/10 border border-red-600/20 text-[9px] font-black text-red-500 uppercase tracking-widest">
                                 Innovación Continua
                             </span>
-                            <span className="text-[8px] font-mono text-slate-700 mt-2">LIVE_INTERACTIVE_MAPPING_MASTER_V9</span>
+                            <span className="text-[8px] font-mono text-slate-700 mt-2 tracking-tighter">LIVE_INTERACTIVE_V11</span>
                         </div>
                     </footer>
                 </div>
             );
         };
 
-        // Renderizado Final
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
