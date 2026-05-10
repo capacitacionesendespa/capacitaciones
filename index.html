@@ -12,7 +12,6 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
 
         @font-face {
             font-family: 'Terpel Sans';
@@ -169,18 +168,18 @@
             const [active, setActive] = useState(null);
 
             const milestones = [
-                { year: "1968", title: "Origen", desc: "Nace Terpel en Bucaramanga", icon: "building-2", color: "bg-red-600", x: "5%", y: "52%" },
-                { year: "1971", title: "Regiones", desc: "Expansión regional en Colombia", icon: "map-pin", color: "bg-red-500", x: "13%", y: "30%" },
-                { year: "2001", title: "Estructura", desc: "Constitución Organización Terpel S.A.", icon: "award", color: "bg-red-700", x: "21%", y: "54%" },
-                { year: "2006", title: "Ecuador", desc: "Inicio operaciones internacionales", icon: "globe-2", color: "bg-orange-500", x: "29%", y: "38%" },
-                { year: "2007", title: "Panamá", desc: "Llegada al mercado panameño", icon: "globe-2", color: "bg-orange-600", x: "37%", y: "69%" },
-                { year: "2010", title: "Inversión", desc: "Copec: Inversionista mayoritario", icon: "trending-up", color: "bg-slate-700", x: "45%", y: "46%" },
-                { year: "2011", title: "República Dominicana", desc: "Aviación en Rep. Dominicana", icon: "plane", color: "bg-blue-600", x: "53%", y: "67%" },
-                { year: "2015", title: "Perú", desc: "Fortalecimiento región andina", icon: "map-pin", color: "bg-red-600", x: "61%", y: "32%" },
-                { year: "2019", title: "Cielos", desc: "Aviación llega a Panamá", icon: "plane", color: "bg-blue-500", x: "69%", y: "56%" },
-                { year: "2021", title: "Voltex", desc: "Nueva movilidad en Panamá", icon: "zap", color: "bg-yellow-500", x: "77%", y: "20%" },
-                { year: "2024", title: "Sbarro", desc: "Alianza retail en Panamá", icon: "target", color: "bg-red-500", x: "85%", y: "46%" },
-                { year: "2025", title: "Total", desc: "Lubricantes TotalEnergies", icon: "droplets", color: "bg-slate-800", x: "93%", y: "22%" }
+                { year: "1968", title: "Origen.", desc: "Nace Terpel en Bucaramanga.", icon: "building-2", color: "bg-red-600", x: "5%", y: "63%" },
+                { year: "1971", title: "Regiones.", desc: "Expansión regional en Colombia.", icon: "map-pin", color: "bg-red-500", x: "13%", y: "25%" },
+                { year: "2001", title: "Estructura.", desc: "Constitución Organización Terpel S.A.", icon: "award", color: "bg-red-700", x: "21%", y: "54%" },
+                { year: "2006", title: "Ecuador.", desc: "Inicio operaciones internacionales.", icon: "globe-2", color: "bg-orange-500", x: "29%", y: "32%" },
+                { year: "2007", title: "Panamá.", desc: "Llegada al mercado panameño.", icon: "globe-2", color: "bg-orange-600", x: "37%", y: "73%" },
+                { year: "2010", title: "Inversión.", desc: "Copec: Inversionista mayoritario.", icon: "trending-up", color: "bg-slate-700", x: "45%", y: "46%" },
+                { year: "2011", title: "República Dominicana.", desc: "Aviación en Rep. Dominicana.", icon: "plane", color: "bg-blue-600", x: "53%", y: "72%" },
+                { year: "2015", title: "Perú.", desc: "Fortalecimiento región andina.", icon: "map-pin", color: "bg-red-600", x: "61%", y: "26%" },
+                { year: "2019", title: "Cielos.", desc: "Aviación llega a Panamá.", icon: "plane", color: "bg-blue-500", x: "69%", y: "50%" },
+                { year: "2021", title: "Voltex.", desc: "Nueva movilidad en Panamá.", icon: "zap", color: "bg-yellow-500", x: "77%", y: "15%" },
+                { year: "2024", title: "Sbarro.", desc: "Alianza retail en Panamá.", icon: "target", color: "bg-red-500", x: "85%", y: "46%" },
+                { year: "2025", title: "Total.", desc: "Lubricantes TotalEnergies.", icon: "droplets", color: "bg-slate-800", x: "93%", y: "18%" }
             ];
 
             return (
@@ -204,9 +203,9 @@
 
                     <div className="
                         absolute
-                        right-[-14%]
-                        top-[20%]
-                        h-[82%]
+                        right-[-10%]
+                        top-[45%]
+                        h-[60%]
                         z-[4]
                         pointer-events-none
                         flex
@@ -227,7 +226,7 @@
 
                     <div className="flex-grow relative mt-4">
                         <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-70" viewBox="0 0 1000 400" preserveAspectRatio="none">
-                            <path d="M 0 220 Q 150 100 300 200 T 600 180 T 1000 160" fill="none" stroke="black" strokeWidth="1.5" strokeDasharray="10 5" />
+                            <path d="M 0 220 Q 150 100 300 200 T 600 180 T 950 160" fill="none" stroke="black" strokeWidth="1.5" strokeDasharray="10 5" />
                         </svg>
 
                         {milestones.map((item, idx) => (
@@ -246,7 +245,7 @@
                                         <Icon name={item.icon} className={`w-6 h-6 md:w-8 md:h-8 ${active === idx ? 'text-white' : 'text-slate-600'}`} />
                                     </div>
                                     <div className={`absolute left-1/2 -translate-x-1/2 text-center transition-all duration-300 ${['1971', '2006', '2010', '2015', '2021', '2025'].includes(item.year) ? 'bottom-full pb-3' : 'top-full pt-3'} ${active === idx ? 'opacity-100' : 'opacity-40'}`}>
-                                        <span className="text-[10px] font-black tracking-tighter text-black block">{item.year}</span>
+                                        <span className="text-[13px] font-black tracking-tighter text-black block">{item.year}</span>
                                     </div>
                                     {active === idx && (
                                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-10 w-48 md:w-60 p-5 bg-white rounded-3xl shadow-[0_20px_80px_rgba(0,0,0,0.8)] 
